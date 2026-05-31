@@ -4,8 +4,9 @@
   --bg: #08080a;
   --text: #a1a1aa;
   --text-bright: #ffffff;
-  --accent: #d4af37; /* Liquid Gold */
-  
+  --accent: #d4af37;
+  /* Liquid Gold */
+
   --font-sans: 'Outfit', sans-serif;
   --font-serif: 'Playfair Display', serif;
 }
@@ -94,18 +95,15 @@ body {
 }
 
 /* Scroll Animation Showcase Section */
-.scroll-showcase {
-  position: relative;
-  height: 500vh; /* Scroll length for 206 frames of rotation */
-  background: var(--bg);
-}
+
 
 .canvas-container {
   position: sticky;
   top: 0;
   left: 0;
   width: 100vw;
-  height: 100vh;
+  min-height: 100vh;
+  min-height: 100dvh;
   height: 100dvh;
   display: flex;
   justify-content: center;
@@ -126,14 +124,14 @@ body {
 canvas {
   width: 100%;
   height: 100%;
-  object-fit: contain;
   display: block;
   z-index: 1;
 }
 
-/* Touch devices scroll performance indicator */
-@media (max-width: 768px) {
-  .scroll-showcase {
-    height: 400vh; /* Shorter track on mobile for easier rotation on swipe */
-  }
+.scroll-showcase {
+  position: relative;
+  height: 500vh;
+  background: var(--bg);
 }
+
+/* Touch devices scroll performance indicator */
