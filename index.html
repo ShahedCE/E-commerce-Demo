@@ -1,0 +1,730 @@
+<!doctype html>
+<html class="light" lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AURA / Interactive Sunglasses & Premium Eyewear Catalog</title>
+  <meta name="description"
+    content="Experience the ultimate scroll-controlled 3D sunglasses showcase and explore our handcrafted premium eyewear collection." />
+
+  <!-- Google Fonts & Material Icons -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Inter:wght@400;500;600&display=swap"
+    rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+    rel="stylesheet" />
+
+  <!-- Tailwind CSS with custom plugins -->
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "surface-tint": "#575d78",
+            "tertiary-fixed": "#d8e3fa",
+            "on-error": "#690005",
+            "tertiary-fixed-dim": "#bcc7dd",
+            "on-surface-variant": "#44474e",
+            "surface": "#f9f9fb",
+            "on-primary": "#ffffff",
+            "tertiary-container": "#d8e3fa",
+            "surface-container-high": "#ebebee",
+            "surface-variant": "#e0e2ec",
+            "primary-fixed-dim": "#bfc5e4",
+            "on-primary-fixed": "#141a32",
+            "tertiary": "#535f70",
+            "error-container": "#ffdad6",
+            "on-tertiary-container": "#101c2b",
+            "secondary-container": "#e1e2e9",
+            "on-tertiary": "#ffffff",
+            "outline": "#74777f",
+            "on-secondary": "#2e3036",
+            "on-error-container": "#410002",
+            "error": "#ba1a1a",
+            "on-primary-container": "#141a32",
+            "on-secondary-container": "#191c21",
+            "surface-container-highest": "#e2e2e5",
+            "background": "#f9f9fb",
+            "on-background": "#191c1e",
+            "surface-bright": "#f9f9fb",
+            "surface-container": "#f0f0f3",
+            "outline-variant": "#c4c6d0",
+            "inverse-on-surface": "#f0f0f3",
+            "secondary-fixed-dim": "#c4c6d0",
+            "on-surface": "#191c1e",
+            "on-tertiary-fixed-variant": "#3b4858",
+            "secondary-fixed": "#e1e2e9",
+            "on-secondary-fixed-variant": "#44474e",
+            "surface-container-low": "#f3f3f6",
+            "on-tertiary-fixed": "#101c2b",
+            "inverse-surface": "#2e3133",
+            "surface-container-lowest": "#ffffff",
+            "on-primary-fixed-variant": "#3f465f",
+            "primary-container": "#dce1ff",
+            "on-secondary-fixed": "#191c21",
+            "primary": "#292f48",
+            "surface-dim": "#dedee1",
+            "primary-fixed": "#dce1ff",
+            "inverse-primary": "#bfc5e4",
+            "secondary": "#5c5e65"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.125rem",
+            "lg": "0.25rem",
+            "xl": "0.5rem",
+            "full": "0.75rem"
+          },
+          "spacing": {
+            "margin-desktop": "80px",
+            "container-max": "1440px",
+            "gutter": "24px",
+            "unit": "8px",
+            "margin-mobile": "20px"
+          },
+          "fontFamily": {
+            "headline-lg-mobile": ["Montserrat"],
+            "label-sm": ["Inter"],
+            "headline-lg": ["Montserrat"],
+            "body-md": ["Inter"],
+            "display-lg": ["Montserrat"]
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #f9f9fb;
+      color: #191c1e;
+    }
+
+    .font-montserrat {
+      font-family: 'Montserrat', sans-serif;
+    }
+
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+
+    .luxury-card {
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      border: 1px solid transparent;
+    }
+
+    .luxury-card:hover {
+      border-color: #bfc5e4;
+      transform: translateY(-4px);
+    }
+
+    .glass-effect {
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(10px);
+    }
+  </style>
+</head>
+
+<body class="bg-background text-on-background">
+  <!-- Preloader Screen -->
+  <div id="preloader">
+    <div class="loader-container">
+      <div class="loader-logo">URBANLENS<span>.</span></div>
+      <div class="loader-bar-bg">
+        <div class="loader-bar" id="loader-bar"></div>
+      </div>
+      <div class="loader-progress" id="loader-progress">Loading 0%</div>
+    </div>
+  </div>
+
+  <!-- Transparent Navigation Header (Blended from code.html with full white text) -->
+  <header
+    class="fixed top-0 left-0 w-full z-50 flex items-center justify-between px-4 lg:px-margin-desktop py-4 bg-black/20 backdrop-blur-md border-b border-white/5 transition-all duration-300 whitespace-nowrap">
+    <div class="flex items-center gap-8">
+      <div class="flex items-center gap-4 text-white">
+        <div class="size-6">
+          <svg fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M42.1739 20.1739L27.8261 5.82609C29.1366 7.13663 28.3989 10.1876 26.2002 13.7654C24.8538 15.9564 22.9595 18.3449 20.6522 20.6522C18.3449 22.9595 15.9564 24.8538 13.7654 26.2002C10.1876 28.3989 7.13663 29.1366 5.82609 27.8261L20.1739 42.1739C21.4845 43.4845 24.5355 42.7467 28.1133 40.548C30.3042 39.2016 32.6927 37.3073 35 35C37.3073 32.6927 39.2016 30.3042 40.548 28.1133C42.7467 24.5355 43.4845 21.4845 42.1739 20.1739Z"
+              fill="currentColor"></path>
+          </svg>
+        </div>
+        <h2 class="text-white text-xl font-bold font-montserrat tracking-tight select-none">URBANLENS</h2>
+      </div>
+      <nav class="hidden md:flex items-center gap-9 ml-32">
+        <a class="text-white text-sm font-semibold uppercase tracking-widest hover:text-[#d4af37] transition-colors"
+          href="#showcase">Showcase</a>
+        <a class="text-white text-sm font-semibold uppercase tracking-widest hover:text-[#d4af37] transition-colors"
+          href="#showcase">Men</a>
+        <a class="text-white text-sm font-semibold uppercase tracking-widest hover:text-[#d4af37] transition-colors"
+          href="#showcase">Women</a>
+        <a class="text-white text-sm font-semibold uppercase tracking-widest hover:text-[#d4af37] transition-colors"
+          href="#specs">Specifications</a>
+        <a class="text-white text-sm font-semibold uppercase tracking-widest hover:text-[#d4af37] transition-colors"
+          href="#best-sellers">Best Sellers</a>
+        <a class="text-white text-sm font-semibold uppercase tracking-widest hover:text-[#d4af37] transition-colors"
+          href="#reviews">Reviews</a>
+      </nav>
+    </div>
+    <div class="flex items-center gap-4">
+      <div
+        class="hidden sm:flex items-center border border-white/10 rounded-lg px-3 py-1.5 bg-white/5 focus-within:border-white/30 transition-all">
+        <span class="material-symbols-outlined text-white/60 text-xl">search</span>
+        <input
+          class="bg-transparent border-none focus:ring-0 text-sm w-40 text-white placeholder:text-white/40 focus:outline-none"
+          placeholder="Search collection..." />
+      </div>
+      <div class="flex gap-2">
+        <button class="p-2 hover:bg-white/10 rounded-lg transition-colors text-white" aria-label="Shopping Cart">
+          <span class="material-symbols-outlined">shopping_cart</span>
+        </button>
+        <button class="p-2 hover:bg-white/10 rounded-lg transition-colors text-white" aria-label="Profile">
+          <span class="material-symbols-outlined">person</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Scroll Controlled Showcase Section -->
+  <div class="scroll-showcase" id="showcase">
+    <!-- Sticky Canvas Container -->
+    <div class="canvas-container">
+      <canvas id="scroll-canvas"></canvas>
+
+      <!-- Premium Centered Text Overlay (0% - 30% scroll) -->
+      <div id="scroll-header-overlay"
+        class="absolute inset-0 flex flex-col justify-center items-center text-center pointer-events-none z-10 px-4 transition-all ease-out select-none">
+        <h1
+          class="text-white font-montserrat font-bold text-5xl md:text-7xl lg:text-8xl uppercase tracking-[0.25em] mb-4 drop-shadow-[0_4px_12px_rgba(0,0,0,0.6)]">
+          UrbanLens
+        </h1>
+        <p
+          class="text-gray-300 font-sans font-medium text-sm md:text-lg lg:text-xl tracking-[0.3em] uppercase drop-shadow-[0_2px_8px_rgba(0,0,0,0.6)]">
+          Where Vision Meets Fashion
+        </p>
+      </div>
+
+      <!-- Premium Glassmorphism Descriptive Cards (40% - 100% scroll) -->
+      <!-- Floating Content Overlay (No Background / No Card) -->
+      <div id="scroll-cards-overlay"
+        class="absolute inset-0 pointer-events-none z-20 flex items-center justify-between px-4 md:px-12 lg:px-24">
+
+        <!-- Content 1 -->
+        <div id="card-chassis" class="absolute max-w-[320px] md:max-w-[380px]
+    left-4 md:left-12 lg:left-24
+    opacity-0 pointer-events-none
+    transition-all duration-700 ease-out
+    transform -translate-x-[50px]">
+
+          <span
+            class="text-xs uppercase tracking-[0.3em] text-amber-400 font-semibold drop-shadow-[0_2px_12px_rgba(0,0,0,0.8)]">
+            Engineering
+          </span>
+
+          <h2
+            class="font-montserrat font-bold text-2xl md:text-3xl mt-2 mb-3 text-white drop-shadow-[0_4px_20px_rgba(0,0,0,0.9)]">
+            Aerospace Chassis
+          </h2>
+
+          <p class="text-white/75 text-sm leading-relaxed drop-shadow-[0_2px_12px_rgba(0,0,0,0.8)]">
+            Hand-sculpted from 3D-woven aerospace carbon fiber strands,
+            creating an exceptionally strong, ultra-light 14g profile.
+          </p>
+        </div>
+
+        <!-- Content 2 -->
+        <div id="card-optics" class="absolute max-w-[320px] md:max-w-[380px]
+    right-4 md:right-12 lg:right-24
+    opacity-0 pointer-events-none
+    transition-all duration-700 ease-out
+    transform translate-x-[50px]">
+
+          <span
+            class="text-xs uppercase tracking-[0.3em] text-amber-400 font-semibold drop-shadow-[0_2px_12px_rgba(0,0,0,0.8)]">
+            Optics
+          </span>
+
+          <h2
+            class="font-montserrat font-bold text-2xl md:text-3xl mt-2 mb-3 text-white drop-shadow-[0_4px_20px_rgba(0,0,0,0.9)]">
+            HD Polarized Lenses
+          </h2>
+
+          <p class="text-white/75 text-sm leading-relaxed drop-shadow-[0_2px_12px_rgba(0,0,0,0.8)]">
+            Advanced 9-layer liquid-lens technology provides perfect color
+            alignment, absolute clarity, and 100% UVA/UVB protection.
+          </p>
+        </div>
+
+        <!-- Content 3 -->
+        <div id="card-hinges" class="absolute max-w-[320px] md:max-w-[380px]
+    left-4 md:left-12 lg:left-24
+    opacity-0 pointer-events-none
+    transition-all duration-700 ease-out
+    transform -translate-x-[50px]">
+
+          <span
+            class="text-xs uppercase tracking-[0.3em] text-amber-400 font-semibold drop-shadow-[0_2px_12px_rgba(0,0,0,0.8)]">
+            Hardware
+          </span>
+
+          <h2
+            class="font-montserrat font-bold text-2xl md:text-3xl mt-2 mb-3 text-white drop-shadow-[0_4px_20px_rgba(0,0,0,0.9)]">
+            Screwless Hinges
+          </h2>
+
+          <p class="text-white/75 text-sm leading-relaxed drop-shadow-[0_2px_12px_rgba(0,0,0,0.8)]">
+            Dual-pivot titanium joint design entirely eliminates screws.
+            Engineered to withstand over 100,000 smooth folding operations.
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Imported Catalog Content below Scroll Showcase -->
+  <main class="flex-1 relative z-10">
+    <!-- Why Choose Us -->
+    <section id="specs" class="px-4 lg:px-margin-desktop py-16 bg-surface-container-low">
+      <div class="max-w-container-max mx-auto grid grid-cols-1 md:grid-cols-3 gap-12">
+        <div class="flex flex-col items-center text-center gap-4">
+          <div class="size-16 bg-primary-container rounded-full flex items-center justify-center text-primary">
+            <span class="material-symbols-outlined text-3xl">verified_user</span>
+          </div>
+          <h3 class="font-montserrat font-bold text-lg uppercase tracking-wider">UV Protection</h3>
+          <p class="text-on-surface-variant text-sm">Grade-A polarized lenses providing 100% protection against UVA/UVB
+            rays.</p>
+        </div>
+        <div class="flex flex-col items-center text-center gap-4">
+          <div class="size-16 bg-primary-container rounded-full flex items-center justify-center text-primary">
+            <span class="material-symbols-outlined text-3xl">precision_manufacturing</span>
+          </div>
+          <h3 class="font-montserrat font-bold text-lg uppercase tracking-wider">Premium Materials</h3>
+          <p class="text-on-surface-variant text-sm">Hand-finished Italian acetate and aerospace-grade titanium frames.
+          </p>
+        </div>
+        <div class="flex flex-col items-center text-center gap-4">
+          <div class="size-16 bg-primary-container rounded-full flex items-center justify-center text-primary">
+            <span class="material-symbols-outlined text-3xl">local_shipping</span>
+          </div>
+          <h3 class="font-montserrat font-bold text-lg uppercase tracking-wider">Free Shipping</h3>
+          <p class="text-on-surface-variant text-sm">Complimentary express shipping and returns on all international
+            orders.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Best Sellers -->
+    <section id="best-sellers" class="px-4 lg:px-margin-desktop py-20 bg-surface">
+      <div class="max-w-container-max mx-auto">
+        <div class="flex justify-between items-end mb-12">
+          <div class="space-y-2">
+            <h2 class="text-3xl font-bold font-montserrat uppercase tracking-tight">Best Sellers</h2>
+            <div class="h-1 w-20 bg-primary"></div>
+          </div>
+          <a class="text-sm font-bold uppercase tracking-widest text-primary border-b border-primary pb-1" href="#">View
+            All</a>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-gutter gap-y-12">
+          <!-- Product 1 -->
+          <div class="luxury-card group flex flex-col gap-4 p-4 rounded-xl bg-surface-container-lowest">
+            <div class="relative aspect-square overflow-hidden rounded-lg bg-surface-container">
+              <img
+                src="https://www.thesunglassfix.com/image/cache/blog/july_2023/how-to-choose-right-sunglass-lens-material-1-1200x750.png"
+                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                alt="Close-up studio photography of the Aura Gold luxury eyewear.">
+              <button
+                class="absolute bottom-4 right-4 bg-primary text-on-primary p-3 rounded-full opacity-0 group-hover:opacity-100 transition-all shadow-xl">
+                <span class="material-symbols-outlined">add_shopping_cart</span>
+              </button>
+            </div>
+            <div class="space-y-1">
+              <div class="flex justify-between items-center">
+                <h3 class="font-bold text-on-background uppercase tracking-wider text-sm">Aura Gold</h3>
+                <span class="text-xs font-semibold text-outline-variant flex items-center gap-1">4.9 <span
+                    class="material-symbols-outlined text-[12px]"
+                    style="font-variation-settings: 'FILL' 1;">star</span></span>
+              </div>
+              <p class="text-primary font-bold text-lg">$345.00</p>
+            </div>
+            <button
+              class="w-full py-2 border border-outline-variant rounded hover:bg-primary hover:text-on-primary transition-colors text-xs font-bold uppercase tracking-widest">Quick
+              Add</button>
+          </div>
+
+          <!-- Product 2 -->
+          <div class="luxury-card group flex flex-col gap-4 p-4 rounded-xl bg-surface-container-lowest">
+            <div class="relative aspect-square overflow-hidden rounded-lg bg-surface-container">
+              <img src="https://images.unsplash.com/photo-1577803645773-f96470509666?q=80&w=600&auto=format&fit=crop"
+                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                alt="Close-up studio photography of the Stealth Black luxury eyewear.">
+              <button
+                class="absolute bottom-4 right-4 bg-primary text-on-primary p-3 rounded-full opacity-0 group-hover:opacity-100 transition-all shadow-xl">
+                <span class="material-symbols-outlined">add_shopping_cart</span>
+              </button>
+            </div>
+            <div class="space-y-1">
+              <div class="flex justify-between items-center">
+                <h3 class="font-bold text-on-background uppercase tracking-wider text-sm">Stealth Black</h3>
+                <span class="text-xs font-semibold text-outline-variant flex items-center gap-1">4.8 <span
+                    class="material-symbols-outlined text-[12px]"
+                    style="font-variation-settings: 'FILL' 1;">star</span></span>
+              </div>
+              <p class="text-primary font-bold text-lg">$345.00</p>
+            </div>
+            <button
+              class="w-full py-2 border border-outline-variant rounded hover:bg-primary hover:text-on-primary transition-colors text-xs font-bold uppercase tracking-widest">
+              Quick Add</button>
+          </div>
+
+          <!-- Product 3 -->
+          <div class="luxury-card group flex flex-col gap-4 p-4 rounded-xl bg-surface-container-lowest">
+            <div class="relative aspect-square overflow-hidden rounded-lg bg-surface-container">
+              <img src="https://images.unsplash.com/photo-1473496169904-658ba7c44d8a?q=80&w=600&auto=format&fit=crop"
+                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                alt="Close-up studio photography of the Ocean Blue luxury eyewear.">
+              <button
+                class="absolute bottom-4 right-4 bg-primary text-on-primary p-3 rounded-full opacity-0 group-hover:opacity-100 transition-all shadow-xl">
+                <span class="material-symbols-outlined">add_shopping_cart</span>
+              </button>
+            </div>
+            <div class="space-y-1">
+              <div class="flex justify-between items-center">
+                <h3 class="font-bold text-on-background uppercase tracking-wider text-sm">Ocean Blue</h3>
+                <span class="text-xs font-semibold text-outline-variant flex items-center gap-1">5.0 <span
+                    class="material-symbols-outlined text-[12px]"
+                    style="font-variation-settings: 'FILL' 1;">star</span></span>
+              </div>
+              <p class="text-primary font-bold text-lg">$345.00</p>
+            </div>
+            <button
+              class="w-full py-2 border border-outline-variant rounded hover:bg-primary hover:text-on-primary transition-colors text-xs font-bold uppercase tracking-widest">Quick
+              Add</button>
+          </div>
+
+          <!-- Product 4 -->
+          <div class="luxury-card group flex flex-col gap-4 p-4 rounded-xl bg-surface-container-lowest">
+            <div class="relative aspect-square overflow-hidden rounded-lg bg-surface-container">
+              <img src="https://images.unsplash.com/photo-1574258495973-f010dfbb5371"
+                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                alt="Close-up studio photography of the Desert Rose luxury eyewear.">
+              <button
+                class="absolute bottom-4 right-4 bg-primary text-on-primary p-3 rounded-full opacity-0 group-hover:opacity-100 transition-all shadow-xl">
+                <span class="material-symbols-outlined">add_shopping_cart</span>
+              </button>
+            </div>
+            <div class="space-y-1">
+              <div class="flex justify-between items-center">
+                <h3 class="font-bold text-on-background uppercase tracking-wider text-sm">Desert Rose</h3>
+                <span class="text-xs font-semibold text-outline-variant flex items-center gap-1">4.7 <span
+                    class="material-symbols-outlined text-[12px]"
+                    style="font-variation-settings: 'FILL' 1;">star</span></span>
+              </div>
+              <p class="text-primary font-bold text-lg">$345.00</p>
+            </div>
+            <button
+              class="w-full py-2 border border-outline-variant rounded hover:bg-primary hover:text-on-primary transition-colors text-xs font-bold uppercase tracking-widest">Quick
+              Add</button>
+          </div>
+
+          <!-- Product 5 -->
+          <div class="luxury-card group flex flex-col gap-4 p-4 rounded-xl bg-surface-container-lowest">
+            <div class="relative aspect-square overflow-hidden rounded-lg bg-surface-container">
+              <img src="https://images.unsplash.com/photo-1511499767150-a48a237f0083"
+                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                alt="Close-up studio photography of the Polar Peak luxury eyewear.">
+              <button
+                class="absolute bottom-4 right-4 bg-primary text-on-primary p-3 rounded-full opacity-0 group-hover:opacity-100 transition-all shadow-xl">
+                <span class="material-symbols-outlined">add_shopping_cart</span>
+              </button>
+            </div>
+            <div class="space-y-1">
+              <div class="flex justify-between items-center">
+                <h3 class="font-bold text-on-background uppercase tracking-wider text-sm">Polar Peak</h3>
+                <span class="text-xs font-semibold text-outline-variant flex items-center gap-1">4.9 <span
+                    class="material-symbols-outlined text-[12px]"
+                    style="font-variation-settings: 'FILL' 1;">star</span></span>
+              </div>
+              <p class="text-primary font-bold text-lg">$345.00</p>
+            </div>
+            <button
+              class="w-full py-2 border border-outline-variant rounded hover:bg-primary hover:text-on-primary transition-colors text-xs font-bold uppercase tracking-widest">Quick
+              Add</button>
+          </div>
+
+          <!-- Product 6 -->
+          <div class="luxury-card group flex flex-col gap-4 p-4 rounded-xl bg-surface-container-lowest">
+            <div class="relative aspect-square overflow-hidden rounded-lg bg-surface-container">
+              <img src="https://images.unsplash.com/photo-1509695507497-903c140c43b0?q=80&w=600&auto=format&fit=crop"
+                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                alt="Close-up studio photography of the Urban Slate luxury eyewear.">
+              <button
+                class="absolute bottom-4 right-4 bg-primary text-on-primary p-3 rounded-full opacity-0 group-hover:opacity-100 transition-all shadow-xl">
+                <span class="material-symbols-outlined">add_shopping_cart</span>
+              </button>
+            </div>
+            <div class="space-y-1">
+              <div class="flex justify-between items-center">
+                <h3 class="font-bold text-on-background uppercase tracking-wider text-sm">Urban Slate</h3>
+                <span class="text-xs font-semibold text-outline-variant flex items-center gap-1">4.8 <span
+                    class="material-symbols-outlined text-[12px]"
+                    style="font-variation-settings: 'FILL' 1;">star</span></span>
+              </div>
+              <p class="text-primary font-bold text-lg">$345.00</p>
+            </div>
+            <button
+              class="w-full py-2 border border-outline-variant rounded hover:bg-primary hover:text-on-primary transition-colors text-xs font-bold uppercase tracking-widest">Quick
+              Add</button>
+          </div>
+
+          <!-- Product 7 -->
+          <div class="luxury-card group flex flex-col gap-4 p-4 rounded-xl bg-surface-container-lowest">
+            <div class="relative aspect-square overflow-hidden rounded-lg bg-surface-container">
+              <img src="https://images.unsplash.com/photo-1515224526905-51c7d77c7bb8?q=80&w=600&auto=format&fit=crop"
+                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                alt="Close-up studio photography of the Midnight luxury eyewear.">
+              <button
+                class="absolute bottom-4 right-4 bg-primary text-on-primary p-3 rounded-full opacity-0 group-hover:opacity-100 transition-all shadow-xl">
+                <span class="material-symbols-outlined">add_shopping_cart</span>
+              </button>
+            </div>
+            <div class="space-y-1">
+              <div class="flex justify-between items-center">
+                <h3 class="font-bold text-on-background uppercase tracking-wider text-sm">Midnight</h3>
+                <span class="text-xs font-semibold text-outline-variant flex items-center gap-1">5.0 <span
+                    class="material-symbols-outlined text-[12px]"
+                    style="font-variation-settings: 'FILL' 1;">star</span></span>
+              </div>
+              <p class="text-primary font-bold text-lg">$345.00</p>
+            </div>
+            <button
+              class="w-full py-2 border border-outline-variant rounded hover:bg-primary hover:text-on-primary transition-colors text-xs font-bold uppercase tracking-widest">Quick
+              Add</button>
+          </div>
+
+          <!-- Product 8 -->
+          <div class="luxury-card group flex flex-col gap-4 p-4 rounded-xl bg-surface-container-lowest">
+            <div class="relative aspect-square overflow-hidden rounded-lg bg-surface-container">
+              <img src="https://images.unsplash.com/photo-1508296695146-257a814070b4?q=80&w=600&auto=format&fit=crop"
+                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                alt="Close-up studio photography of the Gilded Edge luxury eyewear.">
+              <button
+                class="absolute bottom-4 right-4 bg-primary text-on-primary p-3 rounded-full opacity-0 group-hover:opacity-100 transition-all shadow-xl">
+                <span class="material-symbols-outlined">add_shopping_cart</span>
+              </button>
+            </div>
+            <div class="space-y-1">
+              <div class="flex justify-between items-center">
+                <h3 class="font-bold text-on-background uppercase tracking-wider text-sm">Gilded Edge</h3>
+                <span class="text-xs font-semibold text-outline-variant flex items-center gap-1">4.9 <span
+                    class="material-symbols-outlined text-[12px]"
+                    style="font-variation-settings: 'FILL' 1;">star</span></span>
+              </div>
+              <p class="text-primary font-bold text-lg">$345.00</p>
+            </div>
+            <button
+              class="w-full py-2 border border-outline-variant rounded hover:bg-primary hover:text-on-primary transition-colors text-xs font-bold uppercase tracking-widest">Quick
+              Add</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- New Arrivals -->
+    <section class="px-4 lg:px-margin-desktop py-20 bg-surface-container-low">
+      <div class="max-w-container-max mx-auto">
+        <div class="mb-12">
+          <h2 class="text-3xl font-bold font-montserrat uppercase tracking-tight">New Arrivals</h2>
+          <p class="text-on-surface-variant text-sm mt-2">The latest masterpieces from our artisanal workshop.</p>
+        </div>
+
+        <div class="flex flex-col gap-6">
+          <!-- Horizontal Card 1 -->
+          <div
+            class="flex flex-col md:flex-row bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+            <div class="w-full md:w-1/3 aspect-[4/3] md:aspect-square">
+              <img class="w-full h-full object-cover"
+                alt="Portrait of sophisticated person wearing the Eclipse Platinum."
+                src="https://lh3.googleusercontent.com/aida-public/AB6AXuCmUUi68DlUrWP7OfSgcE1i-djBOd4HlLfZUHUKPG_mhtoUXVoEUQHKgTiEOUMGNtqSctLKKuFsjB3TcV_rl_Iq1IJ4_sRlTnV1E6DMVHAPYCjx3B_-qX8MHVRtSetrqpe0ESL9d7MNIguxlyO_9Zphmpr15mkwNXb04J6MqXGjcfPNBtO2CLr9Zc1gMMaEYrWBf5mbA-6h3dyMQTKBVyPvutLQdUs8G_hpt7OoGvd3KWaA97XlI_8jC26dKZWTbhBRPL_pWihiP8A" />
+            </div>
+            <div class="flex-1 p-8 flex flex-col justify-center gap-4">
+              <span class="text-primary font-bold text-xs uppercase tracking-widest">Limited Release</span>
+              <h3 class="text-2xl font-bold font-montserrat">The Eclipse Platinum</h3>
+              <p class="text-on-surface-variant max-w-lg">Featuring our patented matte platinum finish and ultra-thin
+                titanium temples. Designed for those who seek the extraordinary in every detail.</p>
+              <div class="flex items-center gap-6 mt-4">
+                <span class="text-xl font-bold text-on-background">$345.00</span>
+                <button
+                  class="bg-primary text-on-primary px-8 py-3 rounded font-bold uppercase text-xs tracking-widest hover:bg-opacity-95">Reserve
+                  Now</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Horizontal Card 2 -->
+          <div
+            class="flex flex-col md:flex-row-reverse bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+            <div class="w-full md:w-1/3 aspect-[4/3] md:aspect-square">
+              <img class="w-full h-full object-cover" alt="Hinge mechanism details on Eclipse Platinum."
+                src="https://lh3.googleusercontent.com/aida-public/AB6AXuBvvQxm4tN_4zgiqjN4fzjM5pk_HviNd2WMNuBgi76DoGWWs-zuIld6_-kxDJ8hTmTe0ohhDayC26-UmSqE37B1GickqXYXiWSlTIX-zwraLdClGs_ENb9h9PsrBASpWCgQUOr-ZukqlVfgxVUcCs8CwcIT9yjBMKbcaK3v2dpIbq2R1Dk9EvcfT78hMbN6IlVQI2GafjIGNItlazdE_ucIdT82PVfvXgoceQ9uZ8RfW4VMwoKQB02pX3h8MB4JLrrU2TItvzBjMLE" />
+            </div>
+            <div class="flex-1 p-8 flex flex-col justify-center gap-4">
+              <span class="text-primary font-bold text-xs uppercase tracking-widest">New Season</span>
+              <h3 class="text-2xl font-bold font-montserrat">The Horizon Matte</h3>
+              <p class="text-on-surface-variant max-w-lg">A contemporary take on the classic wayfarer, rendered in
+                high-density recycled acetate with a velvet-touch matte finish.</p>
+              <div class="flex items-center gap-6 mt-4">
+                <span class="text-xl font-bold text-on-background">$345.00</span>
+                <button
+                  class="bg-primary text-on-primary px-8 py-3 rounded font-bold uppercase text-xs tracking-widest hover:bg-opacity-95">Explore
+                  Series</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Client Experience -->
+    <section id="reviews" class="px-4 lg:px-margin-desktop py-20 bg-surface">
+      <div class="max-w-container-max mx-auto">
+        <div class="text-center mb-16 space-y-4">
+          <h2 class="text-3xl font-bold font-montserrat uppercase tracking-[0.2em]">The Client Experience</h2>
+          <p class="text-on-surface-variant">Trusted by enthusiasts worldwide for quality and style.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <!-- Review 1 -->
+          <div
+            class="p-8 bg-surface-container-low rounded-xl space-y-6 border border-outline-variant hover:border-primary transition-colors">
+            <div class="flex text-primary">
+              <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+              <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+              <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+              <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+              <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+            </div>
+            <p class="text-on-background italic leading-relaxed">"The clarity of the lenses is unlike anything I've
+              owned. Truly a masterpiece of engineering and style. The gold aviators are my daily essentials now."</p>
+            <div>
+              <h4 class="font-bold text-sm uppercase tracking-widest">Julian Vance</h4>
+              <p class="text-xs text-outline">Architect, New York</p>
+            </div>
+          </div>
+
+          <!-- Review 2 -->
+          <div
+            class="p-8 bg-surface-container-low rounded-xl space-y-6 border border-outline-variant hover:border-primary transition-colors">
+            <div class="flex text-primary">
+              <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+              <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+              <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+              <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+              <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+            </div>
+            <p class="text-on-background italic leading-relaxed">"Packaging was incredible, and the quality of the
+              titanium frames is superb. You can feel the craftsmanship the moment you put them on."</p>
+            <div>
+              <h4 class="font-bold text-sm uppercase tracking-widest">Elena Rossi</h4>
+              <p class="text-xs text-outline">Fashion Editor, Milan</p>
+            </div>
+          </div>
+
+          <!-- Review 3 -->
+          <div
+            class="p-8 bg-surface-container-low rounded-xl space-y-6 border border-outline-variant hover:border-primary transition-colors">
+            <div class="flex text-primary">
+              <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+              <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+              <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+              <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+              <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star_half</span>
+            </div>
+            <p class="text-on-background italic leading-relaxed">"Sleek, minimalist, and very comfortable for long wear.
+              The free express shipping was a nice touch. Highly recommend the Urban Slate collection."</p>
+            <div>
+              <h4 class="font-bold text-sm uppercase tracking-widest">Marcus Thorne</h4>
+              <p class="text-xs text-outline">Photographer, London</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Newsletter -->
+    <section id="newsletter" class="px-4 lg:px-margin-desktop py-20 bg-primary-container text-on-primary-container">
+      <div class="max-w-4xl mx-auto text-center space-y-8">
+        <h2 class="text-3xl lg:text-4xl font-bold font-montserrat uppercase tracking-[0.2em] text-on-primary">The
+          Insider List</h2>
+        <p class="text-lg opacity-80 text-on-primary">Be the first to experience our seasonal drops and exclusive
+          limited editions. Join our global community of discerning collectors.</p>
+        <form class="flex flex-col sm:flex-row gap-4 max-w-xl mx-auto">
+          <input
+            class="flex-1 bg-surface-container-lowest border-none px-6 py-4 rounded text-on-background focus:ring-2 focus:ring-primary transition-all placeholder:text-outline"
+            placeholder="Email Address" type="email" />
+          <button
+            class="bg-primary text-on-primary px-10 py-4 rounded font-bold uppercase text-xs tracking-widest hover:bg-opacity-90 transition-all"
+            type="submit">Subscribe</button>
+        </form>
+        <p class="text-[10px] uppercase tracking-[0.2em] opacity-50 text-on-primary">By subscribing, you agree to our
+          Privacy Policy and Terms of Service.</p>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer
+    class="bg-surface-container-lowest border-t border-outline-variant px-4 lg:px-margin-desktop py-12 relative z-10">
+    <div class="max-w-container-max mx-auto grid grid-cols-2 md:grid-cols-4 gap-12">
+      <div class="col-span-2 md:col-span-1 space-y-6">
+        <h3 class="font-bold font-montserrat text-lg tracking-tighter">Premium Eyewear</h3>
+        <p class="text-on-surface-variant text-sm leading-relaxed">Defining the future of luxury optics through
+          meticulous engineering and timeless design.</p>
+      </div>
+      <div class="space-y-4">
+        <h4 class="font-bold text-xs uppercase tracking-widest">Collections</h4>
+        <ul class="space-y-2 text-sm text-on-surface-variant">
+          <li><a class="hover:text-primary transition-colors" href="#">New Arrivals</a></li>
+          <li><a class="hover:text-primary transition-colors" href="#">Best Sellers</a></li>
+          <li><a class="hover:text-primary transition-colors" href="#">Men's Edition</a></li>
+          <li><a class="hover:text-primary transition-colors" href="#">Women's Edition</a></li>
+        </ul>
+      </div>
+      <div class="space-y-4">
+        <h4 class="font-bold text-xs uppercase tracking-widest">Support</h4>
+        <ul class="space-y-2 text-sm text-on-surface-variant">
+          <li><a class="hover:text-primary transition-colors" href="#">Shipping &amp; Returns</a></li>
+          <li><a class="hover:text-primary transition-colors" href="#">Contact Us</a></li>
+          <li><a class="hover:text-primary transition-colors" href="#">Size Guide</a></li>
+          <li><a class="hover:text-primary transition-colors" href="#">Privacy Policy</a></li>
+        </ul>
+      </div>
+      <div class="space-y-4">
+        <h4 class="font-bold text-xs uppercase tracking-widest">Connect</h4>
+        <div class="flex gap-4">
+          <a class="size-10 border border-outline-variant rounded-full flex items-center justify-center hover:border-primary hover:text-primary transition-all"
+            href="#" aria-label="Web">
+            <span class="material-symbols-outlined text-sm">public</span>
+          </a>
+          <a class="size-10 border border-outline-variant rounded-full flex items-center justify-center hover:border-primary hover:text-primary transition-all"
+            href="#" aria-label="Instagram">
+            <span class="material-symbols-outlined text-sm">camera</span>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="mt-16 pt-8 border-t border-outline-variant text-center">
+      <p class="text-[10px] uppercase tracking-widest text-outline">© 2026 Premium Eyewear. All rights reserved. Crafted
+        for Excellence.</p>
+    </div>
+  </footer>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+
+</html>

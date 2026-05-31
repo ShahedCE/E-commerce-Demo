@@ -1,0 +1,139 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap');
+
+:root {
+  --bg: #08080a;
+  --text: #a1a1aa;
+  --text-bright: #ffffff;
+  --accent: #d4af37; /* Liquid Gold */
+  
+  --font-sans: 'Outfit', sans-serif;
+  --font-serif: 'Playfair Display', serif;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--bg);
+  color: var(--text);
+  overflow-x: hidden;
+  line-height: 1.6;
+}
+
+/* Preloader */
+#preloader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  background-color: var(--bg);
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), visibility 1s;
+}
+
+#preloader.fade-out {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.loader-container {
+  text-align: center;
+  max-width: 300px;
+  width: 100%;
+}
+
+.loader-logo {
+  font-family: var(--font-serif);
+  font-size: 2.5rem;
+  font-style: italic;
+  font-weight: 700;
+  color: var(--text-bright);
+  margin-bottom: 2rem;
+  letter-spacing: 2px;
+}
+
+.loader-logo span {
+  color: var(--accent);
+}
+
+.loader-bar-bg {
+  width: 100%;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 1rem;
+}
+
+.loader-bar {
+  width: 0%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, var(--accent), var(--text-bright));
+  transition: width 0.1s ease-out;
+}
+
+.loader-progress {
+  font-size: 0.85rem;
+  font-weight: 500;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--text);
+  margin-top: 0.5rem;
+}
+
+/* Scroll Animation Showcase Section */
+.scroll-showcase {
+  position: relative;
+  height: 500vh; /* Scroll length for 206 frames of rotation */
+  background: var(--bg);
+}
+
+.canvas-container {
+  position: sticky;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+/* Vignette backdrop mapping to enhance high-end look */
+.canvas-container::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at center, rgba(14, 14, 18, 0) 10%, rgba(8, 8, 10, 0.95) 100%);
+  pointer-events: none;
+  z-index: 2;
+}
+
+canvas {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  z-index: 1;
+}
+
+/* Touch devices scroll performance indicator */
+@media (max-width: 768px) {
+  .scroll-showcase {
+    height: 400vh; /* Shorter track on mobile for easier rotation on swipe */
+  }
+}
