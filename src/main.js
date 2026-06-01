@@ -85,21 +85,25 @@ function drawImageProp(ctx, img, x, y, w, h, offsetX, offsetY) {
   const screenWidth = window.innerWidth;
   const screenHeight = window.innerHeight;
 
+  const isPortraitMobile =
+    screenWidth < 768 &&
+    screenHeight > screenWidth;
+
   let r;
 
-  // Mobile Portrait
-  if (screenWidth < 768 && screenHeight > screenWidth) {
+  if (isPortraitMobile) {
+    // Mobile Portrait
     r = Math.max(w / iw, h / ih) * 0.8;
-  }
 
-  // Tablet
-  else if (screenWidth >= 768 && screenWidth < 1024) {
-    r = Math.max(w / iw, h / ih) * 0.9;
-  }
-
-  // Desktop + Mobile Desktop Site + Landscape
-  else {
+    // Slightly better centering on tall screens
+    offsetX = 0.5;
+    offsetY = 0.5;
+  } else {
+    // Desktop, Tablet, Landscape, Chrome Desktop Site
     r = Math.max(w / iw, h / ih);
+
+    offsetX = 0.5;
+    offsetY = 0.5;
   }
 
   const nw = iw * r;
