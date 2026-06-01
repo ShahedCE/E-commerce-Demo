@@ -70,7 +70,6 @@ function onAllAssetsLoaded() {
 // 2. High-Performance Canvas Rendering
 // ----------------------------------------------------
 function drawImageProp(ctx, img, x, y, w, h, offsetX, offsetY) {
-  // Proportional drawing with smart responsive fits (full-bleed desktop/tablet/desktop-site, uncropped mobile)
   if (arguments.length < 2) return;
 
   if (typeof x !== 'number') x = 0;
@@ -83,9 +82,25 @@ function drawImageProp(ctx, img, x, y, w, h, offsetX, offsetY) {
   const iw = img.width;
   const ih = img.height;
 
-  // Detect if running on a desktop, tablet, or mobile Chrome with "Desktop site" requested
-  // Same cinematic scale for all devices
-  const r = Math.max(w / iw, h / ih);
+  const screenWidth = window.innerWidth;
+  const screenHeight = window.innerHeight;
+
+  let r;
+
+  // Mobile Portrait
+  if (screenWidth < 768 && screenHeight > screenWidth) {
+    r = Math.max(w / iw, h / ih) * 0.8;
+  }
+
+  // Tablet
+  else if (screenWidth >= 768 && screenWidth < 1024) {
+    r = Math.max(w / iw, h / ih) * 0.9;
+  }
+
+  // Desktop + Mobile Desktop Site + Landscape
+  else {
+    r = Math.max(w / iw, h / ih);
+  }
 
   const nw = iw * r;
   const nh = ih * r;
@@ -96,7 +111,6 @@ function drawImageProp(ctx, img, x, y, w, h, offsetX, offsetY) {
   ctx.clearRect(0, 0, w, h);
   ctx.drawImage(img, x + dx, y + dy, nw, nh);
 }
-
 function renderFrame(ctx, canvas, frameIdx) {
   if (!canvas) return;
   const imgIndex = Math.max(0, Math.min(FRAME_COUNT - 1, Math.floor(frameIdx)));
@@ -210,9 +224,9 @@ function updateScrollState() {
   }
 
   // Animate the three cards over their respective ranges (40% - 100% progress)
-  animateScrollCard(chassisCard, 0.4, 0.6, 'left');
-  animateScrollCard(opticsCard, 0.6, 0.8, 'right');
-  animateScrollCard(hingesCard, 0.8, 1.0, 'left');
+  animateScrollCard(chassisCard, 0.25, 0.5, 'left');
+  animateScrollCard(opticsCard, 0.5, 0.75, 'right');
+  animateScrollCard(hingesCard, 0.75, 1.0, 'left');
 }
 
 window.addEventListener('scroll', updateScrollState);
