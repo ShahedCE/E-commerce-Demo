@@ -70,6 +70,7 @@ function onAllAssetsLoaded() {
 // 2. High-Performance Canvas Rendering
 // ----------------------------------------------------
 function drawImageProp(ctx, img, x, y, w, h, offsetX, offsetY) {
+  // Proportional drawing with smart responsive fits (full-bleed desktop/tablet/desktop-site, uncropped mobile)
   if (arguments.length < 2) return;
 
   if (typeof x !== 'number') x = 0;
@@ -82,29 +83,9 @@ function drawImageProp(ctx, img, x, y, w, h, offsetX, offsetY) {
   const iw = img.width;
   const ih = img.height;
 
-  const screenWidth = window.innerWidth;
-  const screenHeight = window.innerHeight;
-
-  const isPortraitMobile =
-    screenWidth < 768 &&
-    screenHeight > screenWidth;
-
-  let r;
-
-  if (isPortraitMobile) {
-    // Mobile Portrait
-    r = Math.max(w / iw, h / ih) * 0.8;
-
-    // Slightly better centering on tall screens
-    offsetX = 0.5;
-    offsetY = 0.5;
-  } else {
-    // Desktop, Tablet, Landscape, Chrome Desktop Site
-    r = Math.max(w / iw, h / ih);
-
-    offsetX = 0.5;
-    offsetY = 0.5;
-  }
+  // Detect if running on a desktop, tablet, or mobile Chrome with "Desktop site" requested
+  // Same cinematic scale for all devices
+  const r = Math.max(w / iw, h / ih);
 
   const nw = iw * r;
   const nh = ih * r;
@@ -115,6 +96,7 @@ function drawImageProp(ctx, img, x, y, w, h, offsetX, offsetY) {
   ctx.clearRect(0, 0, w, h);
   ctx.drawImage(img, x + dx, y + dy, nw, nh);
 }
+
 function renderFrame(ctx, canvas, frameIdx) {
   if (!canvas) return;
   const imgIndex = Math.max(0, Math.min(FRAME_COUNT - 1, Math.floor(frameIdx)));
